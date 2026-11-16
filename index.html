@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nikita Borshch - Mechanical Engineering</title>
+<meta name="description" content="Portfolio of Nikita Borshch, mechanical engineer: design, analysis and prototyping.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================
+   1. CUSTOMIZE HERE – change these values to restyle the site
+   ========================================================= */
+:root {
+  --paper:   #eef1f4;   /* page background */
+  --sheet:   #f9fafb;   /* panels / title block */
+  --ink:     #1b2733;   /* main text and lines */
+  --muted:   #5a6a7a;   /* secondary text */
+  --accent:  #d9480f;   /* links, highlights (safety orange) */
+  --steel:   #2f5d8a;   /* grid lines, secondary accent */
+
+  --font-head: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-body: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --max-width: 1040px;  /* content width */
+  --radius: 2px;        /* 0 = sharp drafting corners, 12px = soft */
+  --line: 1.5px;        /* border thickness */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:#121a22; --sheet:#1a242e; --ink:#e6ebf0; --muted:#97a6b5;
+    --accent:#ff8a4c; --steel:#6fa3d6;
+  }
+}
+
+/* =========================================================
+   2. BASE STYLES
+   ========================================================= */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+body {
+  margin: 0;
+  background-color: var(--paper);
+  /* faint drafting grid */
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--steel) 12%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--steel) 12%, transparent) 1px, transparent 1px);
+  background-size: 32px 32px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+h1, h2, h3 { font-family: var(--font-head); line-height: 1.05; margin: 0 0 .5em; letter-spacing: .01em; }
+h1 { font-size: clamp(3rem, 9vw, 5.5rem); font-weight: 700; }
+h2 { font-size: clamp(1.9rem, 4vw, 2.6rem); font-weight: 600; }
+h3 { font-size: 1.5rem; font-weight: 600; }
+p  { margin: 0 0 1em; max-width: 68ch; }
+a  { color: var(--accent); text-underline-offset: 3px; }
+a:hover { color: var(--steel); }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+.wrap { width: min(100% - 2.5rem, var(--max-width)); margin-inline: auto; }
+section { padding: 4.5rem 0 1rem; }
+
+/* =========================================================
+   3. NAVIGATION
+   ========================================================= */
+.nav {
+  position: sticky; top: 0; z-index: 10;
+  background: var(--sheet);
+  border-bottom: var(--line) solid var(--ink);
+}
+.nav .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem 1.5rem; padding-block: .7rem; }
+.nav .brand { font-family: var(--font-head); font-weight: 700; font-size: 1.4rem; color: var(--ink); text-decoration: none; }
+.nav ul { display: flex; flex-wrap: wrap; gap: 1.25rem; list-style: none; margin: 0; padding: 0; }
+.nav ul a { color: var(--ink); text-decoration: none; font-weight: 600; }
+.nav ul a:hover { color: var(--accent); text-decoration: underline; }
+
+/* =========================================================
+   4. HERO WITH DRAWING TITLE BLOCK
+   ========================================================= */
+.hero { padding-top: 4rem; }
+.hero p.lead { font-size: 1.3rem; max-width: 40ch; color: var(--muted); }
+
+.title-block {
+  margin-top: 2.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  background: var(--sheet);
+  border: calc(var(--line) * 2) solid var(--ink);
+  border-radius: var(--radius);
+}
+.title-block div { padding: .75rem 1rem; border-right: var(--line) solid var(--ink); border-bottom: var(--line) solid var(--ink); margin: 0 -1.5px -1.5px 0; }
+.title-block dt { font-size: .8rem; color: var(--muted); }
+.title-block dd { margin: 0; font-weight: 600; }
+
+.btns { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.75rem; }
+.btn {
+  display: inline-block; padding: .65rem 1.3rem; font-weight: 600; text-decoration: none;
+  border: var(--line) solid var(--ink); border-radius: var(--radius);
+  background: var(--accent); color: #fff;
+}
+.btn:hover { background: var(--ink); color: var(--paper); }
+.btn.alt { background: var(--sheet); color: var(--ink); }
+.btn.alt:hover { background: var(--ink); color: var(--paper); }
+
+/* =========================================================
+   5. PROJECTS
+   ========================================================= */
+.projects { display: grid; gap: 2rem; }
+.project {
+  display: grid; grid-template-columns: 1fr 1.2fr;
+  background: var(--sheet);
+  border: var(--line) solid var(--ink);
+  border-radius: var(--radius);
+}
+/* Image area. To use a real photo: replace the <div class="thumb"> with
+   <img class="thumb" src="images/my-project.jpg" alt="Describe the image"> */
+.thumb {
+  min-height: 240px; width: 100%; height: 100%; object-fit: cover;
+  border-right: var(--line) solid var(--ink);
+  background:
+    radial-gradient(circle at 50% 50%, transparent 0 34px, var(--steel) 35px 37px, transparent 38px 58px, var(--steel) 59px 61px, transparent 62px),
+    linear-gradient(color-mix(in srgb, var(--steel) 25%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--steel) 25%, transparent) 1px, transparent 1px),
+    color-mix(in srgb, var(--steel) 8%, var(--sheet));
+  background-size: auto, 20px 20px, 20px 20px, auto;
+}
+.project .body { padding: 1.5rem; }
+.specs { margin: 1rem 0 0; border-top: var(--line) solid var(--ink); }
+.specs div { display: grid; grid-template-columns: 7.5rem 1fr; padding: .4rem 0; border-bottom: 1px solid color-mix(in srgb, var(--ink) 25%, transparent); }
+.specs dt { color: var(--muted); }
+.specs dd { margin: 0; }
+
+/* =========================================================
+   6. SKILLS, EXPERIENCE, CONTACT
+   ========================================================= */
+.skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.25rem; }
+.skill-group { background: var(--sheet); border: var(--line) solid var(--ink); border-radius: var(--radius); padding: 1.25rem; }
+.skill-group h3 { font-size: 1.3rem; }
+.skill-group ul { margin: 0; padding-left: 1.1rem; }
+
+.timeline { list-style: none; margin: 0; padding: 0 0 0 1.5rem; border-left: var(--line) solid var(--steel); }
+.timeline li { position: relative; margin-bottom: 1.75rem; }
+.timeline li::before {
+  content: ""; position: absolute; left: calc(-1.5rem - 6px); top: .55rem;
+  width: 11px; height: 11px; background: var(--accent); border: var(--line) solid var(--ink); border-radius: 50%;
+}
+.timeline time { color: var(--muted); font-size: .95rem; }
+.timeline h3 { margin-bottom: .1em; }
+
+.contact { background: var(--sheet); border: calc(var(--line) * 2) solid var(--ink); border-radius: var(--radius); padding: 2rem; }
+
+footer { padding: 3rem 0; color: var(--muted); font-size: .95rem; }
+
+/* =========================================================
+   7. MOBILE
+   ========================================================= */
+@media (max-width: 720px) {
+  .project { grid-template-columns: 1fr; }
+  .thumb { border-right: 0; border-bottom: var(--line) solid var(--ink); min-height: 180px; }
+  .specs div { grid-template-columns: 6rem 1fr; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= NAVIGATION ================= -->
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top">Nikita Borshch</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="wrap">
+    <h1>Nikita Borshch</h1>
+    <p class="lead">Mechanical engineer who designs, analyzes and builds products that hold up in the real world.</p>
+
+    <!-- Title block: edit or add rows -->
+    <dl class="title-block">
+      <div><dt>Discipline</dt><dd>Mechanical Engineering</dd></div>
+      <div><dt>Degree</dt><dd>B.S.M.E., University of Massachusetts - Lowell; Anticipated May 2029</dd></div>
+      <div><dt>Focus</dt><dd>Product design, FEA, manufacturing</dd></div>
+      <div><dt>Location</dt><dd>Swampscott, MA</dd></div>
+    </dl>
+
+    <div class="btns">
+      <a class="btn" href="#projects">See my projects</a>
+      <a class="btn alt" href="resume.pdf">Download résumé</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section id="about">
+  <div class="wrap">
+    <h2>About</h2>
+    <p>I’m a mechanical engineer with hands-on experience taking parts from sketch to tested prototype. I enjoy the full loop: setting requirements, modeling in CAD, validating with simulation, and checking the results on the bench.</p>
+    <p>Replace this text with two or three sentences about your background, what you’re looking for, and what you want people to remember.</p>
+  </div>
+</section>
+
+<!-- ================= PROJECTS =================
+     Copy a whole <article class="project"> block to add another project. -->
+<section id="projects">
+  <div class="wrap">
+    <h2>Projects</h2>
+    <div class="projects">
+
+      <article class="project">
+        <div class="thumb" role="img" aria-label="Placeholder drawing"></div>
+        <div class="body">
+          <h3>Lightweight Drone Frame</h3>
+          <p>Redesigned a quadcopter frame to cut mass while keeping stiffness under flight loads.</p>
+          <dl class="specs">
+            <div><dt>Role</dt><dd>Lead designer, team of 4</dd></div>
+            <div><dt>Tools</dt><dd>SolidWorks, ANSYS, 3D printing</dd></div>
+            <div><dt>Result</dt><dd>28% lighter, 12% stiffer than baseline</dd></div>
+          </dl>
+          <p style="margin-top:1rem"><a href="#">View report</a></p>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="thumb" role="img" aria-label="Placeholder drawing"></div>
+        <div class="body">
+          <h3>Heat Exchanger Analysis</h3>
+          <p>Modeled and tested a shell-and-tube heat exchanger and compared CFD predictions with measured data.</p>
+          <dl class="specs">
+            <div><dt>Role</dt><dd>Analysis and testing</dd></div>
+            <div><dt>Tools</dt><dd>MATLAB, Fusion 360, thermocouples</dd></div>
+            <div><dt>Result</dt><dd>Predicted outlet temperature within 4%</dd></div>
+          </dl>
+          <p style="margin-top:1rem"><a href="#">View report</a></p>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="thumb" role="img" aria-label="Placeholder drawing"></div>
+        <div class="body">
+          <h3>Automated Part Sorter</h3>
+          <p>Built a conveyor and pneumatic sorter that separates parts by size for a capstone course.</p>
+          <dl class="specs">
+            <div><dt>Role</dt><dd>Mechanism and controls</dd></div>
+            <div><dt>Tools</dt><dd>Arduino, CAD, GD&amp;T drawings</dd></div>
+            <div><dt>Result</dt><dd>96% sorting accuracy at 40 parts/min</dd></div>
+          </dl>
+          <p style="margin-top:1rem"><a href="#">View report</a></p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= SKILLS ================= -->
+<section id="skills">
+  <div class="wrap">
+    <h2>Skills</h2>
+    <div class="skills">
+      <div class="skill-group">
+        <h3>Design</h3>
+        <ul><li>SolidWorks, Fusion 360</li><li>GD&amp;T and drawings</li><li>Design for manufacturing</li></ul>
+      </div>
+      <div class="skill-group">
+        <h3>Analysis</h3>
+        <ul><li>ANSYS (structural, thermal)</li><li>MATLAB, Python</li><li>Heat transfer, fluids</li></ul>
+      </div>
+      <div class="skill-group">
+        <h3>Making</h3>
+        <ul><li>3D printing, laser cutting</li><li>Machining basics</li><li>Instrumentation and testing</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EXPERIENCE ================= -->
+<section id="experience">
+  <div class="wrap">
+    <h2>Experience</h2>
+    <ol class="timeline">
+      <li>
+        <time>Summer 2025</time>
+        <h3>Mechanical Engineering Intern, Company Name</h3>
+        <p>Describe what you built or improved, with a number if you can.</p>
+      </li>
+      <li>
+        <time>2023 – 2025</time>
+        <h3>Team Member, University Design Team</h3>
+        <p>Describe your role and what the team achieved.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact">
+  <div class="wrap">
+    <div class="contact">
+      <h2>Contact</h2>
+      <p>I’m open to full-time roles and internships. The quickest way to reach me is email.</p>
+      <div class="btns">
+        <a class="btn" href="nikvizirka06@gmail.com">Email me</a>
+        <a class="btn alt" href="https://www.linkedin.com/in/nikita-borshch-047151388/">LinkedIn</a>
+        <a class="btn alt" href="https://github.com/your-handle">GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">© 2026 Nikita Borshch</div>
+</footer>
+
+</body>
+</html>
